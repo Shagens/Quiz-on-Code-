@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/style.css" rel="stylesheet">
+    <title>Quiz on Code!</title>
+</head>
+<body>
+    <div class="container">
+      <div id="question-container" class="hide">
+        <div id="time-display">Time Left:&nbsp;<span id="timer">90</span></div>
+        <div id="question">Question</div>
+        <div id="answer-buttons" class="btn-grid">
+            <button class="btn">Answer 1</button>
+            <button class="btn">Answer 2</button>
+            <button class="btn">Answer 3</button>
+            <button class="btn">Answer 4</button>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="start-btn" class="start-btn btn">Start Quiz!</button>
+        <button id='next-btn' class="next-btn btn hide">Next</button>
+        <button id='finish-btn' class="finish-btn btn hide">Finish!</button>
+    </div>
+
+    <p id="right-wrong"></p>
+    <div id="finish-container" class="hide">
+        <h1>Done!</h1>
+        <p>Your score is:&nbsp;<span id="score"></span></p><br>
+        <form method="POST">
+            <div class="input">
+                <label for="initials-label">Enter initials:</label>
+                <input type="text" id="initials" placeholder="SMH"/>
+                <button id="save-btn" class="btn">Save</button>
+            </div>
+        </form>
+    </div>
+    
+    <div id="topscores" class="hide">
+        <h1>Top Scores</h1>
+        <div id="topScoreslist"></div>
+        <button id="reset" class="btn">Reset</button>
+        <button id="clear-scores" class="btn">Clear Top Scores</button>
+        <p id="clear"></p>
+    </div>
+    <script src="assets/java.js"></script>
+</body>
+</html>

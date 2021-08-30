@@ -1,0 +1,68 @@
+*, *::before, ::after {
+    box-sizing: border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display:flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 800px;
+    max-width: 80%;
+    background-color:darkgray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.btn-grid {
+    display: grid;
+    gap: 8px;
+    margin: 30px 0;
+}
+
+.btn {
+    --hue: var(--hue-neutral);
+    border: 2px;
+    background-color:blue;
+    color: white;
+    border-radius: 8px;
+    padding: 5px 11px;
+}
+
+.btn:hover {
+    background-color:cornflowerblue;
+}
+
+
+
+.start-btn {
+    font-size:large;
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hide {
+    display: none;
+}
+
+.intro {
+    text-align: center;
+    font-style: italic;
+}
+
+#time-display {
+    text-align: left;
+}
+

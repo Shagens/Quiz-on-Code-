@@ -1,12 +1,13 @@
 const startButton = document.getElementById('start-btn')
+const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 const gameTimerEl = document.getElementById('Timer')
-const nextButton = document.getElementById('next-btn')
 const saveButton = document.getElementById('save-btn')
-const answerButtonsEl = document.getElementById('answer-btn')
+// const answerButtonsEl = document.getElementById('answer-btn')
 const finishButtonEl = document.getElementById('finish-btn')
+const showQuestionEl = document.getElementById('showQuestion')
 
 var userInitials;
 var score = 0
@@ -17,11 +18,11 @@ let shuffledQuestions, currentQuestionIndex
 
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
-    currentQuestionIndex++;
+    currentQuestionIndex++
     setNextQuestion()
 })
 
-saveButton.addEventListener('click', topScores);
+// saveButton.addEventListener('click', topScores);
 
 function startGame() {
     console.log('started')
@@ -29,21 +30,44 @@ function startGame() {
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
     questionContainerElement.classList.remove('hide');
-    showQuestion();
+    setNextQuestion();
     gameTimer();
 }
 
-function gameTimer() {
-    var countDown = setInterval(function() {
-        timer --;
-        document.getElementById('timer').innerText = timer;
-        if (timer <=0) {
-            clearInterval(countDown);
-            nextButton.classList.add('hide');
-            gameOver();
+function gameTimer(){
+    var timer = 90
+    setInterval(function() {
+        timer--
+        if (timer >= 0) {
+            span = document.getElementById("timer")
+            span.innerHTML = timer;
         }
-    }, 1000);
-}
+        if (timer === 0) {
+            alert('sorry, out of time')
+            clearInterval(timer);
+          }
+        }, 1000);
+    }
+    function start()
+    {
+        document.getElementById("count").style="color:blue;"
+        gameTimer()
+
+        gameTimerEl.addEventListener('click', timerstarts)
+    };
+
+// function gameTimer() {
+//     var countDown = setInterval(function() {
+//         timer --;
+//         document.getElementById('timer').innerText = timer;
+//         if (timer <=0) {
+//             clearInterval(countDown);
+//             nextButton.classList.add('hide');
+//             gameOver();
+//         }
+//     }, 1000);
+// }
+
 
 function setNextQuestion () {
     resetState()
@@ -51,53 +75,75 @@ function setNextQuestion () {
 }
 
 function showQuestion(question) {
-    questionElement.innerText = question
-
+    questionElement.innerText = question.question
     question.answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.innerText = answer.text;
-        button.classList.add('btn');
-
+        const button = document.createElement('button')
+        button.innerText = answer.text
+        button.classList.add('btn')
         if (answer.correct) {
-            button.dataset.correct = answer.correct;
+            button.dataset.correct = answer.correct
         }
 
         button.addEventListener('click', selectAnswer)
-        answerButtonsEl.appendChild(button);
+        answerButtonsElement.appendChild(button);
     })
 }
 
 function resetState() {
     clearStatusClass(document.body)
-    nextButton.classList.add('hide');
-    while (answerButtonsEl.firstChild) {
-        answerButtonsEl.removeChild(answerButtonsEl.firstChild);
+    nextButton.classList.add('hide')
+    while (answerButtonsElement.firstChild) {
+        answerButtonsElement.removeChild
+        (answerButtonsElement.firstChild)
     }
-    clearStatusClass(document.body);
-    Array.from(answerButtonsEl.children).forEach(button => {
-        button.disabled = false;
-    })
 }
-function selectAnswer() {
-    Array.from(answerButtonsElement.children).forEach(button => {
-        if (button.classList.contains('right')) {
-            button.classList.remove('right');
-        }
-        if (button.classList.contains('wrong')) {
-            button.classList.remove('wrong');
-        }
-    })
-    
+
+function selectAnswer(e) {
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
-    setStatusClass(document.body, right);
-    setStatusClass(selectedButton, right)
+    setStatusClass(document.body, correct)
+    Array.from(answerButtonsElement.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct)
+    })
+    if (shuffledQuestions.lenght > currentQuestionIndex + 1) {
+
+    nextButton.classList.remove('hide')
+  } else {
+      startButton.innerText = 'Restart'
+      startButton.classList.remove('hide')
+  }
 }
+// function resetState() {
+//     clearStatusClass(document.body)
+//     nextButton.classList.add('hide');
+//     while (answerButtonsEl.firstChild) {
+//         answerButtonsEl.removeChild(answerButtonsEl.firstChild);
+//     }
+//     clearStatusClass(document.body);
+//     Array.from(answerButtonsEl.children).forEach(button => {
+//         button.disabled = false;
+//     })
+// }
+// function selectAnswer() {
+//     Array.from(answerButtonsElement.children).forEach(button => {
+//         if (button.classList.contains('right')) {
+//             button.classList.remove('right');
+//         }
+//         if (button.classList.contains('wrong')) {
+//             button.classList.remove('wrong');
+//         }
+//     })
+    
+//     const selectedButton = e.target
+//     const correct = selectedButton.dataset.correct
+//     setStatusClass(document.body, right);
+//     setStatusClass(selectedButton, right)
+// }
 
 function setStatusClass(element, correct) {
     clearStatusClass(element);
     if (correct) {
-        element.classList.add('correct');
+        element.classList.add('correct')
     } else {
         element.classList.add('wrong')
     }
@@ -117,46 +163,44 @@ function clearStatusClass(element) {
     }
 }
 
-
 const questions = [
     {
         question: 'What does HTML stand for?',
         answers: [
-            { text: 'Hyper Text Markup Language', correct: true},
-            { text: 'Hyper Type Makeup Language', correct: false},
-            { text: 'Happy To Make Language', correct: false},
-            { text: 'Hyper Text Makeup Language', correct: false}
+            { text: 'Hyper Text Markup Language', correct: true },
+            { text: 'Hyper Type Makeup Language', correct: false },
+            { text: 'Happy To Make Language', correct: false },
+            { text: 'Hyper Text Makeup Language', correct: false }
 
         ]
     },
     {
         question: 'What does CSS stand for?',
         answers: [
-            { text: 'Cake Sweets Short', correct: false},
-            { text: 'Cascading Sheet Sets', correct: false},
-            { text: 'Cascading Style Sheets', correct: true},
-            { text: 'Cascading Style Sets', correct: false}
+            { text: 'Cake Sweets Short', correct: false },
+            { text: 'Cascading Sheet Sets', correct: false },
+            { text: 'Cascading Style Sheets', correct: true },
+            { text: 'Cascading Style Sets', correct: false }
 
         ]
     },
     {
-        question: 'What is 8+8?',
+        question: 'What does JS stand for?',
         answers: [
-            { text: '11', correct: false},
-            { text: '16', correct: true},
-            { text: '17', correct: false},
-            { text: '15', correct: false}
+            { text: 'Just Stand', correct: false },
+            { text: 'Java Script', correct: true },
+            { text: 'Janky Store', correct: false },
+            { text: 'Jump Star', correct: false }
 
         ]
     },
     {
         question: 'What does USA stand for?',
         answers: [
-            { text: 'United States of Alaska', correct: false},
-            { text: 'United States of Arizona', correct: false},
-            { text: 'United States of Alabama', correct: false},
-            { text: 'United States of America', correct: true}
-
+            { text: 'United States of Alaska', correct: false },
+            { text: 'United States of Arizona', correct: false },
+            { text: 'United States of Alabama', correct: false },
+            { text: 'United States of America', correct: true }
         ]
     }
 ]
@@ -171,17 +215,17 @@ function gameOver() {
 }
 
 function topScores(event) {
-    event.preventDefault();
-    userInitials = initialsEl.value;
-    scorePage(userInitials, score);
-    document.getElementById('finish-container').classList.add('hide');
-    document.getElementById('topscores').classList.remove('hide');
+    event.preventDefault()
+    userInitials = initialsEl.value
+    scorePage(userInitials, score)
+    document.getElementById('finish-container').classList.add('hide')
+    document.getElementById('topscores').classList.remove('hide')
     restartButton.addEventListener('click', function() {
-        document.getElementById('topscores').classList.add('hide');
-        location.reload();
+        document.getElementById('topscores').classList.add('hide')
+        location.reload()
     })
     topScoresButton.addEventListener('click', function() {
-        localStorage.clear();
+        localStorage.clear()
         document.getElementById('clear').innerText = 'Scores are Cleared'
     })
 }
@@ -194,19 +238,16 @@ function scorePage(x, y) {
 }
 
 function displayScores() {
-    var storedScores=JSON.parse(localStorage.getItem('userData'));
+    var storedScores=JSON.parse(localStorage.getItem('userData'))
     if (storedScores !== null) {
-        var scoreList = document.createElement('ol');
+        var scoreList = document.createElement('ol')
         for (var i=0; i < storedScores.length; i++) {
-            var myInitials = storedScores[i].initials;
-            var myScore = storedScores[i].scores;
-            var scoreEntry = document.createElement('li');
-            scoreEntry.innerHTML = myInitials + " - " + myScore;
-            scoreList.appendChild(scoreEntry);
+            var myInitials = storedScores[i].initials
+            var myScore = storedScores[i].scores
+            var scoreEntry = document.createElement('li')
+            scoreEntry.innerHTML = myInitials + " - " + myScore
+            scoreList.appendChild(scoreEntry)
         }
-        highScoreArea.appendChild(scoreList);
+        highScoreArea.appendChild(scoreList)
     }
 }
-
-
-
